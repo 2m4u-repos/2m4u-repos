@@ -64,23 +64,22 @@ const processData = async () => {
         const readMe = join(__dirname, "..", "README.md");
         const now = new Date();
 
-        const text = `
-      <br>
-      <h2 align="center"> ✨ Fortnite Stats ✨</h2><br>
-      🏆 Current Level: ${battlePass.level}<br>
-      🎉 Progress To Next Level: ![](https://geps.dev/progress/${battlePass.progress})<br>
-      🎯 Total Kills: ${all.overall.kills.toLocaleString()}<br>
-      💀 Total Deaths: ${all.overall.deaths.toLocaleString()}<br>
-      👑 Total Wins: ${all.overall.wins.toLocaleString()}<br>
-          Performance Level: ${performanceLevel}<br>
-      <br>
-      <h3>Optimization Data:</h3>
-      <pre>
-      Script Execution Time: ${executionTime.toFixed(2)} seconds
-      CPU Usage: ${cpuUsage.toFixed(2)}%
-      RAM Free: ${os.freemem()} MB
-      Disk Free: ${diskInfo.free / 1024 / 1024} MB
-      </pre>
+        const text = `  
+        ## ✨ Fortnite Stats ✨
+        
+        🏆 Current Level: ${battlePass.level}
+        🎉 Progress To Next Level: ![Progress](https://geps.dev/progress/${battlePass.progress})
+        🎯 Total Kills: ${all.overall.kills.toLocaleString()}
+        💀 Total Deaths: ${all.overall.deaths.toLocaleString()}
+        👑 Total Wins: ${all.overall.wins.toLocaleString()}
+        Performance Level: ${performanceLevel}
+        
+        ### Optimization Data:
+      
+        Script Execution Time: ${executionTime.toFixed(2)} seconds
+        CPU Usage: ${cpuUsage.toFixed(2)}%
+        RAM Free: ${os.freemem()} MB
+        Disk Free: ${diskInfo.free / 1024 / 1024} MB
   `;
 
         writeFileSync(readMe, text);

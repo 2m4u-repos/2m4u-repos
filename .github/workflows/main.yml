@@ -32,6 +32,9 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "<>"
-          git add README.md
+          git status  # Add this line for debugging
+          git add .
+          git status  # Add this line for debugging
           git commit -m "Update README.md"
           git push
+

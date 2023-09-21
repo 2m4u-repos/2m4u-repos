@@ -19,25 +19,25 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
-
-      - name: Run Script Stats Update
-        run: node index.js # Replace with the actual name of your script
-
       - name: Post Webhook to Discord (Start)
         if: always()
         run: |
-          curl -H "Content-Type: application/json" \
-               -X POST \
-               -d '{"content":"Fortnite Stats Update Started"}' \
-               ${{ secrets.DISCORD_WEBHOOK_URL }}
+          curl -X POST https://discord.com/api/webhooks/1154207523998552094/8pYZwFQeI-ZRJLPy9JXnp3zXxf6QhFTZjwsCwRovhnzUihiGbpSmaH3w787F2V4gRAcQ  \
+               -H 'Content-Type: application/json'  \
+               -d '{"content":"Fortnite Stats Update Started"}' 
+               
+      - name: Run Script Stats Update
+        run: node index.js # Replace with the actual name of your script
+
+     
+               
 
       - name: Post Webhook to Discord (End)
         if: always()
         run: |
-          curl -H "Content-Type: application/json" \
-               -X POST \
-               -d '{"content":"Fortnite Stats Update Completed"}' \
-               ${{ secrets.DISCORD_WEBHOOK_URL }}
+          curl -X POST https://discord.com/api/webhooks/1154207523998552094/8pYZwFQeI-ZRJLPy9JXnp3zXxf6QhFTZjwsCwRovhnzUihiGbpSmaH3w787F2V4gRAcQ  \
+               -H 'Content-Type: application/json'  \
+               -d '{"content":"Fortnite Stats Update Completed"}' 
 
       - name: Commit and push changes
         run: |

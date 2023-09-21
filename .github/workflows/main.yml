@@ -26,7 +26,12 @@ jobs:
           node-version: 16
           
       - name: Removing Useless Shit
-        run: git rm -r node_modules/*
+        run: |
+          if [ -d "node_modules" ]; then
+            git rm -r node_modules/*
+          else
+            echo "node_modules directory not found, skipping removal."
+          fi
 
       - name: Install dependencies
         run: npm i

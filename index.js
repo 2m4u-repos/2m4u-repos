@@ -3,7 +3,7 @@ const fetch = require("node-fetch");
 const { writeFileSync } = require("fs");
 const os = require("os");
 const osUtils = require("os-utils");
-const disk = require("diskusage");
+
 
 const definePerformanceLevel = (battlePassLevel, totalWins) => {
     if (battlePassLevel >= 300) {
@@ -30,7 +30,7 @@ const processData = async () => {
 
     const response = await fetch(`https://fortnite-api.com/v2/stats/br/v2?name=OreoLeaks`, {
         headers: {
-            Authorization: process.env.API_SECRET,
+            Authorization: "b3ea7e1e-a57d-4c17-9c8e-e8bc80837feb",
         },
     });
 
@@ -58,13 +58,13 @@ const processData = async () => {
     // Gather CPU usage data
     osUtils.cpuUsage((cpuUsage) => {
         // Gather disk space usage data
-        const diskInfo = disk.checkSync(__dirname);
+        
 
         // Write data to README or perform other actions
         const readMe = join(__dirname, "..", "README.md");
         const now = new Date();
 
-        const text = `  
+        const text = `
         ## ✨ Fortnite Stats ✨
         
         🏆 Current Level: ${battlePass.level}
@@ -75,12 +75,13 @@ const processData = async () => {
         Performance Level: ${performanceLevel}
         
         ### Optimization Data:
-      
-        Script Execution Time: ${executionTime.toFixed(2)} seconds
-        CPU Usage: ${cpuUsage.toFixed(2)}%
-        RAM Free: ${os.freemem()} MB
-        Disk Free: ${diskInfo.free / 1024 / 1024} MB
-  `;
+        
+        - Script Execution Time: ${executionTime.toFixed(2)} seconds
+        - CPU Usage: ${cpuUsage.toFixed(2)}%
+        - RAM Free: ${os.freemem()} MB
+        - Last Updated: ${now.toLocaleDateString()}
+        `;
+        
 
         writeFileSync(readMe, text);
     });

@@ -36,6 +36,8 @@ jobs:
       - name: Commit and push changes
         run: |
           git add README.md
+          git add package-lock.json
+          git add node_modules/
           git commit -m "Update README.md"
           git push
           

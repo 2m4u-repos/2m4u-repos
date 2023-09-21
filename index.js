@@ -81,8 +81,8 @@ const processData = async () => {
         - RAM Free: ${os.freemem()} MB
         - Last Updated: ${now.toLocaleDateString()}
         `;
-        
-
+        console.log(performanceLevel)
+        console.log(readMe,text)
         writeFileSync(readMe, text);
     });
 };

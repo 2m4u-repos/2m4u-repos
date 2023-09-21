@@ -24,11 +24,12 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16
+          
+      - name: Removing Useless Shit
+        run: git rm -r node_modules/*
 
       - name: Install dependencies
         run: npm i
-      - name: Removing Useless Shit
-        run: git rm -r node_modules/*
 
       - name: Generate README
         run: node index.js

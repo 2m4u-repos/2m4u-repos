@@ -20,8 +20,8 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Run Script
-        run: node your-script.js # Replace with the actual name of your script
+      - name: Run Script Stats Update
+        run: node index.js # Replace with the actual name of your script
 
       - name: Post Webhook to Discord (Start)
         if: always()

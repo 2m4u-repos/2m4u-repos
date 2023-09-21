@@ -32,7 +32,9 @@ jobs:
         run: npm i
 
       - name: Generate README
-        run: node index.js
+        run: |
+             cd ${GITHUB_WORKSPACE}/
+             node index.js
         env:
           API_SECRET: ${{ secrets.API_SECRET }}
 

@@ -36,16 +36,6 @@ jobs:
       - name: Commit and push changes
         run: |
           git add README.md
-          
-          # Enable debug logging by setting an environment variable
-          echo "::set-env name=DEBUG_LOG::true"
-          
           git commit -m "Update README.md"
           git push
           
-      - name: Display debug logs
-        if: env.DEBUG_LOG == 'true'
-        run: |
-          # Display debug information
-          echo "Debug Log:"
-          git log -n 5 --pretty=oneline

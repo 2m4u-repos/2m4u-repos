@@ -46,8 +46,9 @@ jobs:
       - name: Commit and push changes
         run: |
           git add README.md
-          git diff --quiet || (git add README.md && git commit -m "Update README.md")
-          git push origin main
+          git diff --quiet || (git commit -m "Update README.md" && git push origin main)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
         
           

@@ -15,6 +15,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Set Git user configuration
+        run: |
+          git config user.name "2m4u-repos"
+          git config user.email "lol.dongs.lol@outlook.com"
+
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
@@ -30,14 +35,17 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git config user.name "GitHub Actions"
-          git config user.email "<>"
-          git status
-          git add .
-          git status
+          git add README.md
+          
+          # Enable debug logging by setting an environment variable
+          echo "::set-env name=DEBUG_LOG::true"
+          
           git commit -m "Update README.md"
-          git push https://$GH_PAT@github.com/2m4u-repos/2m4u-repos.git
-        env:
-          GH_PAT: ${{ secrets.GH_PAT }}
-
-
+          git push
+          
+      - name: Display debug logs
+        if: env.DEBUG_LOG == 'true'
+        run: |
+          # Display debug information
+          echo "Debug Log:"
+          git log -n 5 --pretty=oneline

@@ -25,6 +25,8 @@ jobs:
 
       - name: Generate README
         run: node index.js
+        env:
+          API_SECRET: ${{ secrets.API_SECRET }}
 
       - name: Commit and push changes
         run: |

@@ -32,5 +32,6 @@ jobs:
           git add .
           git commit -m "Update README.md with Fortnite stats"
           git push
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

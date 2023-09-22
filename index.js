@@ -3,6 +3,7 @@ const fetch = require('node-fetch'); // Import the fetch module
 
 // Define categories for Battle Pass Levels
 const defineBattlePassPerformanceLevel = (battlePassLevel) => {
+  // Determine the player's Battle Pass performance level based on their level
   if (battlePassLevel >= 300) {
     return "Competitive XP Grinder";
   } else if (battlePassLevel >= 200) {
@@ -20,10 +21,13 @@ const defineBattlePassPerformanceLevel = (battlePassLevel) => {
 
 // Define categories for Total Wins
 const defineTotalWinsPerformanceLevel = (totalWins) => {
+  // Determine the player's performance level based on total wins
   if (totalWins >= 1000) {
     return "FNCS Champ";
   } else if (totalWins >= 200) {
     return "Seasonal Veteran";
+  } else if (totalWins >= 100) {
+    return "Average Winner";
   } else {
     return "Casual Winner";
   }
@@ -31,7 +35,7 @@ const defineTotalWinsPerformanceLevel = (totalWins) => {
 
 async function generateReadme() {
   try {
-    // Fetch Fortnite data
+    // Fetch Fortnite data from an API
     const fortniteData = await fetchFortniteData();
 
     if (!fortniteData) {
@@ -41,13 +45,11 @@ async function generateReadme() {
 
     const { battlePass, stats: { all } } = fortniteData;
 
-    // Categorize Battle Pass Level
+    // Categorize Battle Pass Level and Total Wins
     const xpGrinderLevel = defineBattlePassPerformanceLevel(battlePass.level);
-
-    // Categorize Total Wins
     const totalWinsPerformanceLevel = defineTotalWinsPerformanceLevel(all.overall.wins);
 
-    // Determine overall performance level
+    // Determine overall performance level based on both Battle Pass and Total Wins
     const performanceLevel = xpGrinderLevel === totalWinsPerformanceLevel
       ? xpGrinderLevel
       : `${totalWinsPerformanceLevel} (Total Wins) | ${xpGrinderLevel} (XP Level)`;
@@ -56,17 +58,24 @@ async function generateReadme() {
     const currentDate = new Date().toLocaleDateString();
 
     const readmeContent = `
-## ✨ Fortnite Stats ✨
+# ✨ Fortnite Stats ✨
 
-🏆 Current Level: ${battlePass.level}
-🎉 Progress To Next Level: ![Progress](https://geps.dev/progress/${battlePass.progress})
-🎯 Total Kills: ${all.overall.kills.toLocaleString()}
-💀 Total Deaths: ${all.overall.deaths.toLocaleString()}
-👑 Total Wins: ${all.overall.wins.toLocaleString()}
-Performance Level: ${performanceLevel}
-Last Updated: ${currentDate}`;
+## Overview
 
-    // Specify the file path for the README.md
+- 🏆 **Current Level:** ${battlePass.level}
+- 🎉 **Progress To Next Level:** ![Progress](https://geps.dev/progress/${battlePass.progress})
+- 🎯 **Total Kills:** ${all.overall.kills.toLocaleString()}
+- 💀 **Total Deaths:** ${all.overall.deaths.toLocaleString()}
+- 👑 **Total Wins:** ${all.overall.wins.toLocaleString()}
+
+## Performance
+
+- **Performance Level:** ${performanceLevel}
+
+## Last Updated
+
+- **Last Updated:** ${currentDate}
+`;
     const readmeFilePath = 'README.md';
 
     // Write the content to the README.md file
@@ -81,30 +90,34 @@ Last Updated: ${currentDate}`;
 // Call the function to generate the README
 generateReadme();
 
-// Function to fetch Fortnite data
+// Function to fetch Fortnite data from an API
 async function fetchFortniteData() {
-  try {
-    const response = await fetch('https://fortnite-api.com/v2/stats/br/v2?name=OreoLeaks', {
-      headers: {
-        Authorization: 'b3ea7e1e-a57d-4c17-9c8e-e8bc80837feb',
-      },
-    });
+ // Function to fetch Fortnite data from an API
+try {
+    // Construct the API URL using provided username
+    const apiUrl = `https://fortnite-api.com/v2/stats/br/v2?name=${process.env.USERNAME}`;
 
+    // Define request headers including Authorization
+    const headers = {
+      Authorization: process.env.API_SECRET,
+      'User-Agent': 'Fortnite-Stats/1.0 - https://github.com/2m4u-repos/2m4u-repos', // Replace with your app's user agent
+    };
+
+    // Make the API request
+    const response = await fetch(apiUrl, { headers });
+
+    // Check for HTTP error status codes
     if (!response.ok) {
       console.error(`Fortnite API request failed with status ${response.status}`);
       return null;
     }
 
+    // Parse the JSON response
     const fortniteData = await response.json();
 
+    // Check for valid data structure
     if (!fortniteData || !fortniteData.data || !fortniteData.data.stats) {
       console.error("Data retrieval or structure is invalid.");
       return null;
     }
-
-    return fortniteData.data;
-  } catch (error) {
-    console.error("An error occurred while fetching Fortnite data:", error);
-    return null;
-  }
 }
